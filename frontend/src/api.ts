@@ -59,3 +59,16 @@ export async function getArticleById(id: string): Promise<Article> {
     throw error; // Re-throw to be handled by the component
   }
 }
+
+export async function getArticlesByCategorySlug(slug: string): Promise<Article[]> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/categories/${slug}/articles`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching articles for category ${slug}:`, error);
+    return [];
+  }
+}
