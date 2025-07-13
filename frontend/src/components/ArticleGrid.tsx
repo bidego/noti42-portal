@@ -11,7 +11,7 @@ const ArticleGrid: React.FC<ArticleGridProps> = ({ articles }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   
   const categories = ['all', ...new Set(articles.map(article => article.category.name))];
-  
+
   const filteredArticles = selectedCategory === 'all' 
     ? articles 
     : articles.filter(article => article.category.name === selectedCategory);
