@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getArticleById, type Article } from '../api';
+import { getArticleBySlug, type Article } from '../api';
 import './ArticleView.css';
 
 const ArticleView: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -13,7 +13,7 @@ const ArticleView: React.FC = () => {
     const fetchArticle = async () => {
       try {
         setLoading(true);
-        const data = await getArticleById(id!); 
+        const data = await getArticleBySlug(slug!); 
         setArticle(data);
       } catch (err) {
         setError('Failed to fetch article.');
@@ -23,10 +23,10 @@ const ArticleView: React.FC = () => {
       }
     };
 
-    if (id) {
+    if (slug) {
       fetchArticle();
     }
-  }, [id]);
+  }, [slug]);
 
   if (loading) {
     return <div>Loading article...</div>;

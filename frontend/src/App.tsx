@@ -27,7 +27,7 @@ function App() {
         <main className="main-content">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/articles/:id" element={<ArticleView />} />
+            <Route path="/articles/slug/:slug" element={<ArticleView />} />
             <Route path="/categories/:slug" element={<CategoryView />} />
           </Routes>
         </main>

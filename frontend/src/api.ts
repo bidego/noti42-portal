@@ -6,6 +6,7 @@ export interface Category {
 
 export interface Article {
   id: string;
+  slug: string;
   title: string;
   summary: string;
   content: string;
@@ -56,6 +57,19 @@ export async function getArticleById(id: string): Promise<Article> {
     return await response.json();
   } catch (error) {
     console.error(`Error fetching article with ID ${id}:`, error);
+    throw error; // Re-throw to be handled by the component
+  }
+}
+
+export async function getArticleBySlug(slug: string): Promise<Article> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/articles/slug/${slug}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching article with slug ${slug}:`, error);
     throw error; // Re-throw to be handled by the component
   }
 }

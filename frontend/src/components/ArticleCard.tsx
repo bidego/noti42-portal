@@ -7,7 +7,7 @@ interface ArticleCardProps extends Article {
 }
 
 const ArticleCard: React.FC<ArticleCardProps> = ({
-  id,
+  slug,
   title,
   summary,
   imageUrl,
@@ -39,7 +39,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 
   return (
     <article className={`article-card ${variant}`}>
-      <Link to={`/articles/${id}`} className="article-link">
+      <Link to={`/articles/slug/${slug}`} className="article-link">
         <div className="article-image-container">
           <img 
             src={imageUrl} 
