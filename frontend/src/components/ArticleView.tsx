@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getArticleById } from '../api'; // Assuming this function will be created
-
-interface Article {
-  id: string;
-  title: string;
-  content: string;
-  // Add other article properties as needed
-}
+import { getArticleById, type Article } from '../api';
+import './ArticleView.css';
 
 const ArticleView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +13,7 @@ const ArticleView: React.FC = () => {
     const fetchArticle = async () => {
       try {
         setLoading(true);
-        const data = await getArticleById(id!); // Call the API function
+        const data = await getArticleById(id!); 
         setArticle(data);
       } catch (err) {
         setError('Failed to fetch article.');
@@ -47,10 +41,14 @@ const ArticleView: React.FC = () => {
   }
 
   return (
-    <div className="article-view">
-      <h1>{article.title}</h1>
-      <p>{article.content}</p>
-      {/* Render other article details here */}
+    <div className="main-content">
+      <div className="container article-view">
+        {article.imageUrl && (
+          <img src={article.imageUrl} alt={article.title} className="article-image" />
+        )}
+        <h1>{article.title}</h1>
+        <p>{article.content}</p>
+      </div>
     </div>
   );
 };
