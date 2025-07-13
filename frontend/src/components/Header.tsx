@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { type Category } from '../api';
 import './Header.css';
 
@@ -9,6 +9,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ categories }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -37,9 +38,9 @@ const Header: React.FC<HeaderProps> = ({ categories }) => {
             
             <nav className={`main-nav ${isMenuOpen ? 'nav-open' : ''}`}>
               <ul className="nav-links">
-                <li><Link to="/" className="nav-link active">Inicio</Link></li>
+                <li><Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>Inicio</Link></li>
                 {categories.map(category => (
-                  <li key={category.id}><Link to={`/categories/${category.name.toLowerCase()}`} className="nav-link">{category.name}</Link></li>
+                  <li key={category.id}><Link to={`/categories/${category.name.toLowerCase()}`} className={`nav-link ${location.pathname === `/categories/${category.name.toLowerCase()}` ? 'active' : ''}`}>{category.name}</Link></li>
                 ))}
               </ul>
             </nav>
