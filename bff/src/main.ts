@@ -6,7 +6,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  app.useStaticAssets(join(__dirname, '..', '..', 'noti42-portal', 'frontend', 'dist'));
+  app.useStaticAssets(join(__dirname, '..', 'public'));
 
   await app.listen(process.env.PORT ?? 3000);
 }

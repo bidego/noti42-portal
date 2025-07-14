@@ -11,7 +11,7 @@ import { join } from 'path';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '..', 'frontend', 'dist'),
+      rootPath: join(__dirname, 'public'), 
       serveStaticOptions: {
         setHeaders: (res, path, stat) => {
           if (path.endsWith('.html')) {
@@ -25,7 +25,6 @@ import { join } from 'path';
           }
         },
       },
-      exclude: ['/documento/**'],
     })
   ],
   controllers: [AppController, ApiController],
