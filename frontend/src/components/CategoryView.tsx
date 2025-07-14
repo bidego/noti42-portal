@@ -20,9 +20,11 @@ const CategoryView: React.FC = () => {
         const fetchedCategories = await getCategories();
         const currentCategory = fetchedCategories.find(cat => cat.name.toLowerCase() === slug?.toLowerCase());
         setCategoryName(currentCategory ? currentCategory.name : slug || null);
+        document.title = `Noti42 - ${currentCategory ? currentCategory.name : slug || 'Category'}`;
 
       } catch (err) {
         setError('Failed to fetch articles or category information.');
+        document.title = "Noti42 - Error";
         console.error(err);
       } finally {
         setLoading(false);
@@ -31,10 +33,13 @@ const CategoryView: React.FC = () => {
 
     if (slug) {
       fetchData();
+    } else {
+      document.title = "Noti42 - Category Not Found";
     }
   }, [slug]);
 
   if (loading) {
+    document.title = "Noti42 - Loading Category...";
     return <div className="container">Loading articles...</div>;
   }
 
@@ -43,6 +48,7 @@ const CategoryView: React.FC = () => {
   }
 
   if (articles.length === 0) {
+    document.title = "Noti42 - No Articles Found";
     return <div className="container">No articles found for {categoryName || slug}.</div>;
   }
 

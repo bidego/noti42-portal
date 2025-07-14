@@ -15,8 +15,10 @@ const ArticleView: React.FC = () => {
         setLoading(true);
         const data = await getArticleBySlug(slug!); 
         setArticle(data);
+        document.title = `Noti42 - ${data.title}`;
       } catch (err) {
         setError('Failed to fetch article.');
+        document.title = "Noti42 - Error";
         console.error(err);
       } finally {
         setLoading(false);
@@ -25,10 +27,13 @@ const ArticleView: React.FC = () => {
 
     if (slug) {
       fetchArticle();
+    } else {
+      document.title = "Noti42 - Article Not Found";
     }
   }, [slug]);
 
   if (loading) {
+    document.title = "Noti42 - Loading Article...";
     return <div>Loading article...</div>;
   }
 
@@ -37,6 +42,7 @@ const ArticleView: React.FC = () => {
   }
 
   if (!article) {
+    document.title = "Noti42 - Article Not Found";
     return <div>Article not found.</div>;
   }
 

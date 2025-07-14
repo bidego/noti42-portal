@@ -7,6 +7,7 @@ const Home: React.FC = () => {
   const [articles, setArticles] = useState<Article[]>([]);
 
   useEffect(() => {
+    document.title = "Noti42 - Home";
     const fetchData = async () => {
       const fetchedArticles = await getArticles();
       setArticles(fetchedArticles);
