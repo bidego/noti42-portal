@@ -21,6 +21,12 @@ run:
 	@echo "Running Docker image locally..."
 	docker run -p 8080:3000 $(FULL_IMAGE_NAME)
 
+# Montamos frontend/dist en /app/bff/dist/public -v $(PWD)/frontend/dist:/app/bff/dist/publics
+# run docker with network default
+run-dev:
+	@echo "Running Docker image locally..."
+	docker run -e NOTI_BO_BASE_URL=http://localhost:9000 -p 8080:3000 $(FULL_IMAGE_NAME)
+
 create-vm:
 	@echo "Creating GCP Compute Engine VM and deploying container..."
 	gcloud compute instances create-with-container $(VM_NAME) \
