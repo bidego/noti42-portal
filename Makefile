@@ -77,5 +77,32 @@ clean:
 add-instance-to-group:
 	gcloud compute instance-groups unmanaged add-instances noti42-main-group --instances=noti42-portal-vm --zone=us-central1-a
 
-redeploy: push delete-vm create-vm add-instance-to-group
+publish: build push
+	@echo "Publish Docker image to GCR.completed."
+
+redeploy: delete-vm create-vm add-instance-to-group
 	@echo "Deployment process completed."
+
+build-frontend:
+	@echo "Building frontend..."
+	cd frontend && npm run build
+	rm -rf bff/dist/public/*
+	cp -r frontend/dist/* bff/dist/public/
+
+deploy-frontend:
+	@echo "Building frontend..."
+	cd frontend && npm run build
+	@echo "Usage: make deploy-frontend FILES_PATH=<path_to_your_files> CONTAINER_ID=<container_id>"
+	@echo "Creating temporary directory on VM..."
+	gcloud compute ssh $(VM_NAME) --zone=$(ZONE) --command="mkdir -p /tmp/frontend_dist"
+	@echo "Copying files to VM temporary directory..."
+	gcloud compute scp --recurse $(FILES_PATH)/* $(VM_NAME):/tmp/frontend_dist --zone=$(ZONE)
+	@echo "Copying files from VM to Docker container..."
+	gcloud compute ssh $(VM_NAME) --zone=$(ZONE) --command="docker cp /tmp/frontend_dist/. $(CONTAINER_ID):/app/bff/dist/public && rm -rf /tmp/frontend_dist" 
+	@echo "Deployment to container completed."
+
+get-id:
+	@echo "Get container ID..."
+	gcloud compute ssh $(VM_NAME) --zone=$(ZONE) --command="docker ps"
+	
+	
