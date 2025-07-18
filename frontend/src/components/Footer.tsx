@@ -79,7 +79,7 @@ const Footer: React.FC = () => {
             &copy; {new Date().getFullYear()} Noti42. Todos los derechos reservados.
           </p>
           <p className="powered-by">
-            Desarrollado por <a href="mailto:contacto@noti42.com" target="_blank" rel="noopener noreferrer">contacto@noti42.com</a>.
+            Desarrollado por <a href="https://pentagrama.tech" target="_blank" rel="noopener noreferrer">pentagrama.tech</a>. Contacto: <a href="mailto:contacto@noti42.com" target="_blank" rel="noopener noreferrer">contacto@noti42.com</a>.
           </p>
         </div>
       </div>
