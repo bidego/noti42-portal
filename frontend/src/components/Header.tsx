@@ -15,6 +15,10 @@ const Header: React.FC<HeaderProps> = ({ categories }) => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
     <>
       <div className="breaking-news">
@@ -37,7 +41,7 @@ const Header: React.FC<HeaderProps> = ({ categories }) => {
             </div>
             
             <nav className={`main-nav ${isMenuOpen ? 'nav-open' : ''}`}>
-              <ul className="nav-links">
+              <ul className="nav-links" onClick={closeMenu}>
                 <li><Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>Inicio</Link></li>
                 {categories.map(category => (
                   <li key={category.id}><Link to={`/categories/${category.slug}`} className={`nav-link ${location.pathname === `/categories/${category.slug}` ? 'active' : ''}`}>{category.name}</Link></li>
@@ -54,7 +58,7 @@ const Header: React.FC<HeaderProps> = ({ categories }) => {
               </button>
               
               <button 
-                className="menu-toggle"
+                className={`menu-toggle ${isMenuOpen ? 'active' : ''}`}
                 onClick={toggleMenu}
                 aria-label="Menú"
               >
