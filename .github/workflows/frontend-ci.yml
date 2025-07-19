@@ -1,0 +1,84 @@
+name: Frontend CI/CD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'noti42-portal/frontend/**'
+      - 'noti42-portal/bff/**'
+  workflow_dispatch:
+
+jobs:
+  build-frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./noti42-portal
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install frontend dependencies
+      run: cd frontend && npm install
+
+    - name: Build frontend
+      run: |
+        cd frontend && npm run build
+        rm -rf ../bff/dist/public/*
+        cp -r frontend/dist/* ../bff/dist/public/
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: frontend-build
+        path: noti42-portal/bff/dist/public/
+
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    needs: build-frontend
+    defaults:
+      run:
+        working-directory: ./noti42-portal
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: frontend-build
+        path: bff/dist/public/
+
+    - name: Configure GCP credentials
+      # This step requires GCP authentication.
+      # You'll need to set up Workload Identity Federation or use a service account key.
+      # Example using service account key (NOT recommended for production):
+      # uses: google-github-actions/auth@v2
+      # with:
+      #   credentials_json: ${{ secrets.GCP_SA_KEY }}
+      run: echo "GCP authentication needs to be configured here."
+
+    - name: Deploy frontend to VM
+      # This step mirrors the 'deploy-frontend' target from your Makefile.
+      # It requires VM_NAME, ZONE, and CONTAINER_ID to be set as environment variables or GitHub Secrets.
+      # FILES_PATH is handled by downloading the artifact.
+      run: |
+        echo "Deploying frontend to GCP VM..."
+        # Ensure VM_NAME, ZONE, and CONTAINER_ID are set as GitHub Secrets or environment variables
+        # Example:
+        # gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.ZONE }} --command="mkdir -p /tmp/frontend_dist"
+        # gcloud compute scp --recurse bff/dist/public/* ${{ env.VM_NAME }}:/tmp/frontend_dist --zone=${{ env.ZONE }}
+        # gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.ZONE }} --command="docker cp /tmp/frontend_dist/. ${{ env.CONTAINER_ID }}:/app/bff/dist/public && rm -rf /tmp/frontend_dist"
+        echo "Deployment commands are commented out. Please uncomment and configure with your GCP details and secrets."
+      env:
+        VM_NAME: ${{ secrets.VM_NAME }}
+        ZONE: ${{ secrets.ZONE }}
+        CONTAINER_ID: ${{ secrets.CONTAINER_ID }}
