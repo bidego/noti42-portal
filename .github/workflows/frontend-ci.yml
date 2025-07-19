@@ -38,7 +38,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: frontend-build
-        path: noti42-portal/bff/dist/public/
+        path: bff/dist/public/
 
   deploy-frontend:
     runs-on: ubuntu-latest
