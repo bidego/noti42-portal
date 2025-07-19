@@ -87,3 +87,25 @@ export async function getArticlesByCategorySlug(slug: string): Promise<Article[]
     return [];
   }
 }
+
+export interface PortalMessageForm {
+  name: string;
+  email: string;
+  message: string;
+}
+
+export async function submitPortalMessage(formData: PortalMessageForm): Promise<any> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/portal-messages`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+    return await response.json();
+  } catch (error) {
+    console.error("Error submitting portal message:", error);
+    throw error;
+  }
+}

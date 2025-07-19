@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { submitPortalMessage } from '../api';
 import './Form.css'; // Assuming a generic form styling
 
 const ContactForm: React.FC = () => {
@@ -20,15 +21,7 @@ const ContactForm: React.FC = () => {
     setMessage(null);
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
+      const data = await submitPortalMessage(formData);
 
       if (response.ok) {
         setStatus('success');
