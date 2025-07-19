@@ -61,9 +61,9 @@ jobs:
       # This step requires GCP authentication.
       # You'll need to set up Workload Identity Federation or use a service account key.
       # Example using service account key (NOT recommended for production):
-      # uses: google-github-actions/auth@v2
-      # with:
-      #   credentials_json: ${{ secrets.GCP_SA_KEY }}
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
       run: echo "GCP authentication needs to be configured here."
 
     - name: Deploy frontend to VM
@@ -74,11 +74,10 @@ jobs:
         echo "Deploying frontend to GCP VM..."
         # Ensure VM_NAME, ZONE, and CONTAINER_ID are set as GitHub Secrets or environment variables
         # Example:
-        # gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.ZONE }} --command="mkdir -p /tmp/frontend_dist"
-        # gcloud compute scp --recurse bff/dist/public/* ${{ env.VM_NAME }}:/tmp/frontend_dist --zone=${{ env.ZONE }}
-        # gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.ZONE }} --command="docker cp /tmp/frontend_dist/. ${{ env.CONTAINER_ID }}:/app/bff/dist/public && rm -rf /tmp/frontend_dist"
-        echo "Deployment commands are commented out. Please uncomment and configure with your GCP details and secrets."
+        gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.ZONE }} --command="mkdir -p /tmp/frontend_dist"
+        gcloud compute scp --recurse bff/dist/public/* ${{ env.VM_NAME }}:/tmp/frontend_dist --zone=${{ env.ZONE }}
+        gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.ZONE }} --command="docker cp /tmp/frontend_dist/. ${{ env.CONTAINER_ID }}:/app/bff/dist/public && rm -rf /tmp/frontend_dist"
       env:
-        VM_NAME: ${{ secrets.VM_NAME }}
-        ZONE: ${{ secrets.ZONE }}
-        CONTAINER_ID: ${{ secrets.CONTAINER_ID }}
+        VM_NAME: ${{ env.VM_NAME }}
+        ZONE: ${{ env.ZONE }}
+        CONTAINER_ID: ${{ env.CONTAINER_ID }}
