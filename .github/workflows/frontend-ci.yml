@@ -32,7 +32,7 @@ jobs:
       run: |
         cd frontend && npm run build
         rm -rf ../bff/dist/public/*
-        cp -r frontend/dist/* ../bff/dist/public/
+        cp -r dist/* ../bff/dist/public/
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
