@@ -46,7 +46,7 @@ jobs:
     environment: prod
     defaults:
       run:
-        working-directory: ./noti42-portal
+        working-directory: ./
 
     steps:
     - name: Checkout repository
