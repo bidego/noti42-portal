@@ -25,7 +25,7 @@ run:
 # run docker with network default
 run-dev:
 	@echo "Running Docker image locally..."
-	docker run -e NOTI_BO_BASE_URL=http://localhost:9000 -p 8080:3000 $(FULL_IMAGE_NAME)
+	docker run -e NOTI_BO_BASE_URL=http://localhost:9000 -p 3000:3000 $(FULL_IMAGE_NAME)
 
 create-vm:
 	@echo "Creating GCP Compute Engine VM and deploying container..."

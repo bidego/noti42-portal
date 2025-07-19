@@ -23,7 +23,7 @@ const ContactForm: React.FC = () => {
     try {
       const data = await submitPortalMessage(formData);
 
-      if (response.ok) {
+      if (!data.error) {
         setStatus('success');
         setMessage(data.message || 'Mensaje enviado con éxito!');
         setFormData({ name: '', email: '', message: '' }); // Clear form
