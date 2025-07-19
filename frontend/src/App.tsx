@@ -5,6 +5,11 @@ import ArticleView from './components/ArticleView';
 import CategoryView from './components/CategoryView';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import AboutUs from './components/AboutUs';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import TermsAndConditions from './components/TermsAndConditions';
+import ContactForm from './components/ContactForm';
+import AdvertisementForm from './components/AdvertisementForm';
 import { getCategories, type Category } from './api';
 import './App.css';
 
@@ -29,6 +34,11 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/articles/slug/:slug" element={<ArticleView />} />
             <Route path="/categories/:slug" element={<CategoryView />} />
+            <Route path="/nosotros" element={<AboutUs />} />
+            <Route path="/privacidad" element={<PrivacyPolicy />} />
+            <Route path="/terminos" element={<TermsAndConditions />} />
+            <Route path="/contacto" element={<ContactForm />} />
+            <Route path="/publicidad" element={<AdvertisementForm />} />
           </Routes>
         </main>
         <Footer />

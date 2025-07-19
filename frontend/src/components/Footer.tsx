@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './Footer.css';
 
 const Footer: React.FC = () => {
@@ -49,11 +50,11 @@ const Footer: React.FC = () => {
           <div className="footer-section">
             <h4 className="footer-section-title">Información</h4>
             <ul className="footer-links">
-              <li><a href="#contacto">Contacto</a></li>
-              <li><a href="#nosotros">Nosotros</a></li>
-              <li><a href="#privacidad">Privacidad</a></li>
-              <li><a href="#terminos">Términos</a></li>
-              <li><a href="#publicidad">Publicidad</a></li>
+              <li><Link to="/contacto">Contacto</Link></li>
+              <li><Link to="/nosotros">Nosotros</Link></li>
+              <li><Link to="/privacidad">Privacidad</Link></li>
+              <li><Link to="/terminos">Términos</Link></li>
+              <li><Link to="/publicidad">Publicidad</Link></li>
             </ul>
           </div>
           

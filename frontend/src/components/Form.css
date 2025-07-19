@@ -1,0 +1,86 @@
+.form-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+  color: #333;
+  font-size: 2.5em;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.form-description {
+  color: #666;
+  font-size: 1.1em;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.main-form .form-group {
+  margin-bottom: 20px;
+}
+
+.main-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: bold;
+}
+
+.main-form .form-input,
+.main-form .form-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
+  box-sizing: border-box; /* Ensures padding doesn't increase total width */
+}
+
+.main-form .form-input:focus,
+.main-form .form-textarea:focus {
+  border-color: #007bff; /* Highlight on focus */
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.main-form .form-textarea {
+  resize: vertical; /* Allow vertical resizing */
+}
+
+.main-form .form-button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 2rem;
+  background-color: var(--accent-color);
+  color: white;
+  border: 1px solid var(--accent-color);
+  border-radius: 0;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.main-form .form-button:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.form-success-message {
+  color: #28a745;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.form-error-message {
+  color: #dc3545;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+}

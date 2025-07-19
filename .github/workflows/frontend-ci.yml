@@ -3,10 +3,11 @@ name: Frontend CI/CD
 on:
   push:
     branches:
+      - main
       - master
     paths:
-      - 'noti42-portal/frontend/**'
-      - 'noti42-portal/bff/**'
+      - 'frontend/**'
+      - 'bff/**'
   workflow_dispatch:
 
 jobs:
