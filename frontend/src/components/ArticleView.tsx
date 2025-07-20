@@ -62,7 +62,7 @@ const ArticleView: React.FC = () => {
             <img src={article.imageUrl} alt={article.title} className="article-image" />
           )}
           <h1>{article.title}</h1>
-          <p>{article.content}</p>
+          <div dangerouslySetInnerHTML={{ __html: article.content }} />
         </div>
       </div>
     </>

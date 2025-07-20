@@ -16,14 +16,17 @@ const Home: React.FC = () => {
     fetchData();
   }, []);
 
-  const heroArticle = articles.length > 0 ? articles[0] : null;
+  const featuredArticles = articles.filter(a => a.featured);
+  const heroArticle = featuredArticles.length > 0 ? featuredArticles[0] : null;
+  const otherFeatured = featuredArticles.slice(1);
+  const nonFeatured = articles.filter(a => !a.featured);
 
   return (
     <>
       {heroArticle && (
         <HeroArticle article={heroArticle} />
       )}
-      <ArticleGrid articles={articles} />
+      <ArticleGrid articles={otherFeatured.concat(nonFeatured)} />
     </>
   );
 };
