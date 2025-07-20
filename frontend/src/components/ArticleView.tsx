@@ -15,10 +15,10 @@ const ArticleView: React.FC = () => {
         setLoading(true);
         const data = await getArticleBySlug(slug!); 
         setArticle(data);
-        document.title = `Noti42 - ${data.title}`;
+        
       } catch (err) {
         setError('Failed to fetch article.');
-        document.title = "Noti42 - Error";
+        
         console.error(err);
       } finally {
         setLoading(false);
@@ -27,17 +27,18 @@ const ArticleView: React.FC = () => {
 
     if (slug) {
       fetchArticle();
-    } else {
-      document.title = "Noti42 - Article Not Found";
     }
   }, [slug]);
 
+  
+
   if (loading) {
     document.title = "Noti42 - Loading Article...";
-    return <div>Loading article...</div>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
+    document.title = "Noti42 - Error";
     return <div>Error: {error}</div>;
   }
 
@@ -47,15 +48,24 @@ const ArticleView: React.FC = () => {
   }
 
   return (
-    <div className="main-content">
-      <div className="container article-view">
-        {article.imageUrl && (
-          <img src={article.imageUrl} alt={article.title} className="article-image" />
-        )}
-        <h1>{article.title}</h1>
-        <p>{article.content}</p>
+    <>
+      <title>{`Noti42 - ${article.title}`}</title>
+      <meta name="description" content={article.content.substring(0, 160)} />
+      <meta property="og:title" content={article.title} />
+      <meta property="og:description" content={article.content.substring(0, 160)} />
+      {article.imageUrl && <meta property="og:image" content={article.imageUrl} />}
+      <meta property="og:type" content="article" />
+      
+      <div className="main-content">
+        <div className="container article-view">
+          {article.imageUrl && (
+            <img src={article.imageUrl} alt={article.title} className="article-image" />
+          )}
+          <h1>{article.title}</h1>
+          <p>{article.content}</p>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

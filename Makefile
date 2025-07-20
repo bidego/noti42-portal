@@ -27,6 +27,10 @@ run-dev:
 	@echo "Running Docker image locally..."
 	docker run -e NOTI_BO_BASE_URL=http://localhost:9000 -p 3000:3000 $(FULL_IMAGE_NAME)
 
+run-dev-api-prd:
+	@echo "Running Docker image locally..."
+	docker run -e NOTI_BO_BASE_URL=https://admin.noti42.com -p 3000:3000 $(FULL_IMAGE_NAME)
+
 create-vm:
 	@echo "Creating GCP Compute Engine VM and deploying container..."
 	gcloud compute instances create-with-container $(VM_NAME) \
