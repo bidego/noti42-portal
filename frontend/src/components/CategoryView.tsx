@@ -40,7 +40,12 @@ const CategoryView: React.FC = () => {
 
   if (loading) {
     document.title = "Noti42 - Loading Category...";
-    return <div className="container">Loading articles...</div>;
+    return (
+      <div className="loading-container">
+        <img src="/favicon.png" alt="Loading..." className="loading-logo" />
+        <p>Cargando artículos...</p>
+      </div>
+    );
   }
 
   if (error) {

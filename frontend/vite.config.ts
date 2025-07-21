@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://admin.noti42.com/api', // 'http://localhost:9000'
+        target: 'https://admin.noti42.com/api', // 'http://localhost:9000/api',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
