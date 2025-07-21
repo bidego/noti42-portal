@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import ScrollToTop from './components/ScrollToTop';
 import { useState, useEffect } from 'react';
 import Home from './components/Home';
 import ArticleView from './components/ArticleView';
@@ -27,6 +28,7 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <div className="App">
         <Header categories={categories} />
         <main className="main-content">

@@ -88,13 +88,21 @@ export async function getArticlesByCategorySlug(slug: string): Promise<Article[]
   }
 }
 
+export interface PortalMessage {
+  id: number;
+  name: string;
+  email: string;
+  message: string;
+  createdAt: string; 
+}
+
 export interface PortalMessageForm {
   name: string;
   email: string;
   message: string;
 }
 
-export async function submitPortalMessage(formData: PortalMessageForm): Promise<any> {
+export async function submitPortalMessage(formData: PortalMessageForm): Promise<PortalMessage> {
   try {
     const response = await fetch(`${API_BASE_URL}/portal-messages`, {
       method: 'POST',
