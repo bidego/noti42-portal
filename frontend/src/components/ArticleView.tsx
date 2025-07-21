@@ -75,10 +75,12 @@ const ArticleView: React.FC = () => {
   return (
     <>
       <title>{`Noti42 - ${article.title}`}</title>
-      <meta name="description" content={article.content.substring(0, 160)} />
+      <meta name="description" content={article.summary} />
       <meta property="og:title" content={article.title} />
-      <meta property="og:description" content={article.content.substring(0, 160)} />
+      <meta property="og:description" content={article.summary} />
       {article.imageUrl && <meta property="og:image" content={article.imageUrl} />}
+      <meta property="og:url" content={window.location.href} />
+      <meta property="og:site_name" content="Noti42" />
       <meta property="og:type" content="article" />
       
       <div className="main-content">
