@@ -16,7 +16,7 @@ const Home: React.FC = () => {
   }, []);
 
   const featuredArticles = articles.filter(a => a.featured);
-  const heroArticle = featuredArticles.length > 0 ? featuredArticles[0] : null;
+  const heroArticle = featuredArticles.length > 0 ? featuredArticles[0] : undefined;
   const otherFeatured = featuredArticles.slice(1);
   const nonFeatured = articles.filter(a => !a.featured);
 
