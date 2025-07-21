@@ -3,6 +3,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ApiController } from './api.controller';
+import { SsrController } from './ssr/ssr.controller';
 
 const logger = new Logger('AppModule');
 
@@ -27,7 +28,7 @@ import { join } from 'path';
       },
     })
   ],
-  controllers: [AppController, ApiController],
+  controllers: [AppController, ApiController, SsrController],
   providers: [AppService],
 })
 export class AppModule {}
