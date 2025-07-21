@@ -23,6 +23,10 @@
   margin-bottom: 1rem;
 }
 
+.article-view .article-content {
+  white-space: pre-wrap;
+}
+
 @media (max-width: 768px) {
   .article-view h1 {
     font-size: 2rem;
