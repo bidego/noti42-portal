@@ -62,6 +62,19 @@ export async function getArticleById(id: string): Promise<Article> {
   }
 }
 
+export async function getArticleBySlugLegacy(slug: string): Promise<Article> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/articles/slug/${slug}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching article with slug ${slug}:`, error);
+    throw error; // Re-throw to be handled by the component
+  }
+}
+
 export async function getArticleBySlug(categorySlug: string, articleSlug: string): Promise<Article> {
   try {
     const response = await fetch(`${API_BASE_URL}/articles/by-category-and-slug/${categorySlug}/${articleSlug}`);

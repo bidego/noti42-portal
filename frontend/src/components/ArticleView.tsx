@@ -54,7 +54,12 @@ const ArticleView: React.FC = () => {
 
   if (loading) {
     document.title = "Noti42 - Loading Article...";
-    return <div>Loading...</div>;
+    return (
+      <div className="loading-container">
+        <img src="/favicon.png" alt="Cargando..." className="loading-logo" />
+        <p>Cargando artículo...</p>
+      </div>
+    );
   }
 
   if (error) {

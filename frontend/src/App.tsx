@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Home from './components/Home';
 import ArticleView from './components/ArticleView';
 import CategoryView from './components/CategoryView';
+import OldArticleRedirector from './components/OldArticleRedirector';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import AboutUs from './components/AboutUs';
@@ -34,6 +35,7 @@ function App() {
         <main className="main-content">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/articles/slug/:slug" element={<OldArticleRedirector />} />
             <Route path="/:categorySlug/:articleSlug" element={<ArticleView />} />
             <Route path="/:slug" element={<CategoryView />} />
             <Route path="/nosotros" element={<AboutUs />} />
