@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({ categories }) => {
               <ul className="nav-links" onClick={closeMenu}>
                 <li><Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>Inicio</Link></li>
                 {categories.map(category => (
-                  <li key={category.id}><Link to={`/categories/${category.slug}`} className={`nav-link ${location.pathname === `/categories/${category.slug}` ? 'active' : ''}`}>{category.name}</Link></li>
+                  <li key={category.id}><Link to={`/${category.slug}`} className={`nav-link ${location.pathname.startsWith(`/${category.slug}`) ? 'active' : ''}`}>{category.name}</Link></li>
                 ))}
               </ul>
             </nav>

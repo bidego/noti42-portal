@@ -34,8 +34,8 @@ function App() {
         <main className="main-content">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/articles/slug/:slug" element={<ArticleView />} />
-            <Route path="/categories/:slug" element={<CategoryView />} />
+            <Route path="/:categorySlug/:articleSlug" element={<ArticleView />} />
+            <Route path="/:slug" element={<CategoryView />} />
             <Route path="/nosotros" element={<AboutUs />} />
             <Route path="/privacidad" element={<PrivacyPolicy />} />
             <Route path="/terminos" element={<TermsAndConditions />} />

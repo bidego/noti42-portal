@@ -62,15 +62,15 @@ export async function getArticleById(id: string): Promise<Article> {
   }
 }
 
-export async function getArticleBySlug(slug: string): Promise<Article> {
+export async function getArticleBySlug(categorySlug: string, articleSlug: string): Promise<Article> {
   try {
-    const response = await fetch(`${API_BASE_URL}/articles/slug/${slug}`);
+    const response = await fetch(`${API_BASE_URL}/articles/by-category-and-slug/${categorySlug}/${articleSlug}`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     return await response.json();
   } catch (error) {
-    console.error(`Error fetching article with slug ${slug}:`, error);
+    console.error(`Error fetching article with categorySlug ${categorySlug} and articleSlug ${articleSlug}:`, error);
     throw error; // Re-throw to be handled by the component
   }
 }

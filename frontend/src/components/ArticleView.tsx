@@ -5,7 +5,7 @@ import './ArticleView.css';
 import './ArticleCard.css';
 
 const ArticleView: React.FC = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const { categorySlug, articleSlug } = useParams<{ categorySlug: string; articleSlug: string }>();
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +14,7 @@ const ArticleView: React.FC = () => {
     const fetchArticle = async () => {
       try {
         setLoading(true);
-        const data = await getArticleBySlug(slug!); 
+        const data = await getArticleBySlug(categorySlug!, articleSlug!); 
         setArticle(data);
         
       } catch (err) {
@@ -26,10 +26,10 @@ const ArticleView: React.FC = () => {
       }
     };
 
-    if (slug) {
+    if (categorySlug && articleSlug) {
       fetchArticle();
     }
-  }, [slug]);
+  }, [categorySlug, articleSlug]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

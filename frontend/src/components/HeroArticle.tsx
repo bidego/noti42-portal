@@ -25,7 +25,7 @@ const HeroArticle: React.FC<HeroArticleProps> = ({ article }) => {
 
   return (
     <section className="hero-article">
-      <Link to={`/articles/slug/${slug}`} className="hero-link">
+      <Link to={`/${article.category.slug}/${slug}`} className="hero-link">
         <div className="hero-container">
           <div className="hero-image-container">
             <img src={imageUrl} alt={title} className="hero-image" />
