@@ -93,7 +93,8 @@ export interface PortalMessage {
   name: string;
   email: string;
   message: string;
-  createdAt: string; 
+  createdAt: string;
+  error: string;
 }
 
 export interface PortalMessageForm {
