@@ -52,11 +52,16 @@ const CategoryView: React.FC = () => {
     return <div className="container">No articles found for {categoryName || slug}.</div>;
   }
 
+  const mainArticle = articles.length > 0 ? articles[0] : undefined;
+  const otherArticles = articles.slice(1);
+
+  const formattedCategoryName = categoryName ? categoryName.charAt(0).toUpperCase() + categoryName.slice(1) : (slug ? slug.charAt(0).toUpperCase() + slug.slice(1) : 'Category');
+
   return (
     <div className="main-content">
       <div className="container">
-        <h1>Category: {categoryName || slug}</h1>
-        <ArticleGrid articles={articles} />
+        <h1>{formattedCategoryName}</h1>
+        <ArticleGrid articles={otherArticles} featuredArticle={mainArticle} />
       </div>
     </div>
   );

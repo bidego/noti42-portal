@@ -5,9 +5,11 @@ import './ArticleGrid.css';
 
 interface ArticleGridProps {
   articles: Article[];
+  featuredArticle?: Article; // Optional featured article
+  secondaryArticles?: Article[]; // Optional secondary articles
 }
 
-const ArticleGrid: React.FC<ArticleGridProps> = ({ articles }) => {
+const ArticleGrid: React.FC<ArticleGridProps> = ({ articles, featuredArticle, secondaryArticles }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   
   const categories = ['all', ...new Set(articles.map(article => article.category.name))];
@@ -16,25 +18,24 @@ const ArticleGrid: React.FC<ArticleGridProps> = ({ articles }) => {
     ? articles 
     : articles.filter(article => article.category.name === selectedCategory);
   
-  const featuredArticle = articles.find(article => article.featured);
-  const secondaryArticles = articles.filter(article => !article.featured).slice(0, 4);
-
   return (
     <div className="container-fluid">
-      {/* Featured Section */}
+      {/* Featured Section (only if featuredArticle is provided) */}
       {featuredArticle && (
         <section className="featured-section">
           <div className="featured-main">
             <ArticleCard {...featuredArticle} variant="featured" />
           </div>
-          <div className="featured-sidebar">
-            <h2 className="sidebar-title">Destacadas</h2>
-            <div className="secondary-articles">
-              {secondaryArticles.map((article) => (
-                <ArticleCard key={article.id} {...article} variant="secondary" />
-              ))}
+          {secondaryArticles && secondaryArticles.length > 0 && (
+            <div className="featured-sidebar">
+              <h2 className="sidebar-title">Destacadas</h2>
+              <div className="secondary-articles">
+                {secondaryArticles.map((article) => (
+                  <ArticleCard key={article.id} {...article} variant="secondary" />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </section>
       )}
       
@@ -53,9 +54,9 @@ const ArticleGrid: React.FC<ArticleGridProps> = ({ articles }) => {
       
       {/* Main Articles Grid */}
       <section className="articles-section">
-        <h2 className="section-title">Últimas Noticias</h2>
+        <h2 className="section-title">Artículos</h2>
         <div className="articles-grid">
-          {filteredArticles.filter(article => !article.featured).map((article) => (
+          {filteredArticles.map((article) => (
             <ArticleCard key={article.id} {...article} />
           ))}
         </div>
