@@ -7,7 +7,7 @@ import axios from 'axios';
 @Controller()
 export class SsrController {
   private logger = new Logger('SsrController');
-  private readonly templatePath = path.resolve(__dirname, "..","public", "index.html");
+  private readonly templatePath = path.resolve(__dirname, "public", "index.html");
   private readonly NOTI_BO_BASE_URL = process.env.NOTI_BO_BASE_URL || 'http://localhost:9000'; // Assuming noti-bo runs on port 9000
 
   @Get(':categorySlug/:articleSlug')
