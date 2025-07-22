@@ -50,12 +50,12 @@ const Header: React.FC<HeaderProps> = ({ categories }) => {
             </nav>
             
             <div className="header-actions">
-              <button className="search-btn" aria-label="Buscar">
+              {/*<button className="search-btn" aria-label="Buscar">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <circle cx="11" cy="11" r="8"/>
                   <path d="21 21l-4.35-4.35"/>
                 </svg>
-              </button>
+              </button>*/}
               
               <button 
                 className={`menu-toggle ${isMenuOpen ? 'active' : ''}`}
