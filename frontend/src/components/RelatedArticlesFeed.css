@@ -1,0 +1,11 @@
+.related-articles-feed {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.related-articles-feed h2 {
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #333;
+}

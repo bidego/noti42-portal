@@ -1,25 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getArticleBySlug, type Article } from '../api';
+import { getArticleBySlug, getArticlesByCategorySlug, type Article } from '../api';
+import RelatedArticlesFeed from './RelatedArticlesFeed';
 import './ArticleView.css';
 import './ArticleCard.css';
 
 const ArticleView: React.FC = () => {
   const { categorySlug, articleSlug } = useParams<{ categorySlug: string; articleSlug: string }>();
   const [article, setArticle] = useState<Article | null>(null);
+  const [relatedArticles, setRelatedArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchArticle = async () => {
+    const fetchArticleAndRelated = async () => {
       try {
         setLoading(true);
-        const data = await getArticleBySlug(categorySlug!, articleSlug!); 
-        setArticle(data);
+        const articleData = await getArticleBySlug(categorySlug!, articleSlug!); 
+        setArticle(articleData);
+
+        const relatedData = await getArticlesByCategorySlug(articleData.category.slug);
+        setRelatedArticles(relatedData.filter(relatedArticle => relatedArticle.id !== articleData.id));
         
       } catch (err) {
-        setError('Failed to fetch article.');
-        
+        setError('Failed to fetch article or related articles.');
         console.error(err);
       } finally {
         setLoading(false);
@@ -27,7 +31,7 @@ const ArticleView: React.FC = () => {
     };
 
     if (categorySlug && articleSlug) {
-      fetchArticle();
+      fetchArticleAndRelated();
     }
   }, [categorySlug, articleSlug]);
 
@@ -49,8 +53,6 @@ const ArticleView: React.FC = () => {
     if (diffInHours < 24) return `Hace ${diffInHours} horas`;
     return formatDate(dateString);
   };
-
-  
 
   if (loading) {
     document.title = "Noti42 - Loading Article...";
@@ -111,6 +113,9 @@ const ArticleView: React.FC = () => {
               ))}
             </div>
           )}
+        </div>
+        <div className="container">
+          <RelatedArticlesFeed articles={relatedArticles} currentArticleSlug={article.slug} />
         </div>
       </div>
     </>
