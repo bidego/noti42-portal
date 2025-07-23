@@ -27,7 +27,7 @@ const Home: React.FC = () => {
     return (
       <div className="loading-container">
         <img src="/favicon.png" alt="Cargando..." className="loading-logo" />
-        <p>Cargando artículos...</p>
+        <p>Cargando...</p>
       </div>
     );
   }
