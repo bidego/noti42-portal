@@ -14,6 +14,13 @@ on:
   workflow_dispatch: 
 
 jobs:
+  build-bff:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.head_commit.message != '' && contains(join(github.event.commits.*.modified, ','), 'bff/') }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
   build-frontend:
     runs-on: ubuntu-latest
     defaults:
