@@ -5,4 +5,7 @@ export class AppService {
   getAlive(): string {
     return 'Alive!';
   }
+  isReady(): string {
+    return 'Ready!';
+  }
 }

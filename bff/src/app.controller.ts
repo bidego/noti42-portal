@@ -9,4 +9,9 @@ export class AppController {
   getLiveness(): string {
     return this.appService.getAlive();
   }
+
+  @Get("/health/readiness")
+  getReadiness(): string {
+    return this.appService.isReady();
+  }
 }
