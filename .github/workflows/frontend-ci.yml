@@ -20,6 +20,14 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+    - name: Configure GCP credentials
+      # This step requires GCP authentication.
+      # You'll need to set up Workload Identity Federation or use a service account key.
+      # Example using service account key (NOT recommended for production):
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+
 
   build-frontend:
     runs-on: ubuntu-latest
