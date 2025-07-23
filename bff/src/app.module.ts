@@ -28,7 +28,7 @@ import { join } from 'path';
       },
     })
   ],
-  controllers: [AppController, ApiController, SsrController],
+  controllers: [AppController, ApiController ],
   providers: [AppService],
 })
 export class AppModule {}
