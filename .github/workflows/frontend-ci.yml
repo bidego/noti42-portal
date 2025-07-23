@@ -1,14 +1,17 @@
 name: Frontend CI/CD
 
 on:
+#  push:
+#    branches:
+#      - main
+#      - master
+#    paths:
+#      - 'frontend/**'
+#      - 'bff/**'
   push:
-    branches:
-      - main
-      - master
-    paths:
-      - 'frontend/**'
-      - 'bff/**'
-  workflow_dispatch:
+      tags:
+        - 'v*.*.*'
+  workflow_dispatch: 
 
 jobs:
   build-frontend:

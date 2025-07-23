@@ -38,12 +38,12 @@ const Footer: React.FC = () => {
           <div className="footer-section">
             <h4 className="footer-section-title">Secciones</h4>
             <ul className="footer-links">
-              <li><a href="#politica">Política</a></li>
-              <li><a href="#economia">Economía</a></li>
-              <li><a href="#deportes">Deportes</a></li>
-              <li><a href="#tecnologia">Tecnología</a></li>
-              <li><a href="#cultura">Cultura</a></li>
-              <li><a href="#mundo">Mundo</a></li>
+              <li><Link to="/politica">Política</Link></li>
+              <li><Link to="/economia">Economía</Link></li>
+              <li><Link to="/deportes">Deportes</Link></li>
+              <li><Link to="/tecnologia">Tecnología</Link></li>
+              <li><Link to="/cultura">Cultura</Link></li>
+              <li><Link to="/mundo">Mundo</Link></li>
             </ul>
           </div>
           
