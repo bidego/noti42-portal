@@ -14,9 +14,43 @@ on:
   workflow_dispatch: 
 
 jobs:
-  build-bff:
+  detect-changes:
     runs-on: ubuntu-latest
-    if: ${{ github.event.head_commit.message != '' && contains(join(github.event.commits.*.modified, ','), 'bff/') }}
+    outputs:
+      frontend: ${{ steps.set.outputs.frontend }}
+      bff: ${{ steps.set.outputs.bff }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Necesario para diff entre commits/tags
+      - id: set
+        run: |
+          LAST_COMMIT=$(git rev-parse HEAD)
+          PREV_COMMIT=$(git rev-list --tags --skip=1 --max-count=1)
+
+          echo "Last tag commit: $LAST_COMMIT"
+          echo "Previous tag commit: $PREV_COMMIT"
+
+          CHANGED=$(git diff --name-only $PREV_COMMIT $LAST_COMMIT || true)
+
+          echo "$CHANGED"
+
+          if echo "$CHANGED" | grep -q "^frontend/"; then
+            echo "frontend=true" >> $GITHUB_OUTPUT
+          else
+            echo "frontend=false" >> $GITHUB_OUTPUT
+          fi
+
+          if echo "$CHANGED" | grep -q "^bff/"; then
+            echo "bff=true" >> $GITHUB_OUTPUT
+          else
+            echo "bff=false" >> $GITHUB_OUTPUT
+          fi
+
+  build-bff:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.bff == 'true'
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -30,6 +64,8 @@ jobs:
 
 
   build-frontend:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.frontend == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
