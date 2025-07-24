@@ -23,7 +23,7 @@ const Header: React.FC<HeaderProps> = ({ categories }) => {
     <>
       <div className="breaking-news">
         <div className="container-fluid">
-          <span>🔴 ÚLTIMO MOMENTO: Sigue las noticias más importantes en tiempo real</span>
+          <span>🔴 ÚLTIMO MOMENTO: Seguí las noticias más importantes en tiempo real</span>
         </div>
       </div>
       
