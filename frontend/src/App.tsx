@@ -29,6 +29,7 @@ const PageViewTracker = () => {
 
 function App() {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [bffVersion, setBffVersion] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +37,20 @@ function App() {
       setCategories(fetchedCategories);
     };
 
+    const fetchBffVersion = async () => {
+      try {
+        const response = await fetch('/version'); // Assuming /version is relative to the frontend
+        if (response.ok) {
+          const data = await response.json();
+          setBffVersion(data.version);
+        }
+      } catch (error) {
+        console.error('Error fetching BFF version:', error);
+      }
+    };
+
     fetchData();
+    fetchBffVersion();
   }, []);
 
   return (
@@ -60,6 +74,32 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        {import.meta.env.VITE_APP_VERSION && (
+          <div style={{
+            position: 'fixed',
+            bottom: '20px',
+            right: '0px',
+            fontSize: '0.7em',
+            color: '#ccc',
+            zIndex: 1000,
+            paddingRight: '5px' // Add a small padding to prevent it from touching the very edge
+          }}>
+            f-v{import.meta.env.VITE_APP_VERSION}
+          </div>
+        )}
+        {bffVersion && (
+          <div style={{
+            position: 'fixed',
+            bottom: '0px',
+            right: '0px',
+            fontSize: '0.7em',
+            color: '#ccc',
+            zIndex: 1000,
+            paddingRight: '5px' // Add a small padding to prevent it from touching the very edge
+          }}>
+            bff-v{bffVersion}
+          </div>
+        )}
       </div>
     </Router>
   );

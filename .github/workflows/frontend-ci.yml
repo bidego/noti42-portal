@@ -147,7 +147,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: frontend-build
-        path: dist/
+        path: ./frontend/dist/
 
   deploy-frontend:
     runs-on: ubuntu-latest
