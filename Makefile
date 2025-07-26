@@ -2,7 +2,7 @@ PROJECT_ID := vinder-451113
 IMAGE_NAME := noti42-portal
 IMAGE_TAG := latest
 FULL_IMAGE_NAME := gcr.io/$(PROJECT_ID)/$(IMAGE_NAME):$(IMAGE_TAG)
-VM_NAME := noti42-portal-vm
+VM_NAME := noti42-portal-instance
 ZONE := us-central1-a # You can change this to your preferred zone
 
 .PHONY: all build push deploy create-vm delete-vm clean
