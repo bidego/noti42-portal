@@ -51,26 +51,71 @@ jobs:
     needs: detect-changes
     if: needs.detect-changes.outputs.bff == 'true'
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./noti42-portal/bff
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-    - name: Configure GCP credentials
-      # This step requires GCP authentication.
-      # You'll need to set up Workload Identity Federation or use a service account key.
-      # Example using service account key (NOT recommended for production):
-      uses: google-github-actions/auth@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
       with:
-        credentials_json: ${{ secrets.GCP_SA_KEY }}
+        node-version: '20'
 
+    - name: Install BFF dependencies
+      run: npm install
 
-  build-frontend:
-    needs: detect-changes
-    if: needs.detect-changes.outputs.frontend == 'true'
+    - name: Build BFF
+      run: npm run build
+
+    - name: Upload BFF build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: bff-build
+        path: dist/
+
+  deploy-bff:
     runs-on: ubuntu-latest
+    needs: build-bff
     environment: prod
     defaults:
       run:
         working-directory: ./
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Download BFF build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: bff-build
+        path: ./bff-build-artifact/
+
+    - name: Configure GCP credentials
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+    - name: Deploy BFF to VM
+      run: |
+        echo "Deploying BFF to GCP VM..."
+        gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.ZONE }} --command="mkdir -p /tmp/bff_dist"
+        gcloud compute scp --recurse ./bff-build-artifact/* ${{ env.VM_NAME }}:/tmp/bff_dist --zone=${{ env.ZONE }}
+        gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.ZONE }} --command="docker cp /tmp/bff_dist/. ${{ env.CONTAINER_ID }}:/app/bff/dist && rm -rf /tmp/bff_dist"
+      env:
+        VM_NAME: ${{ vars.VM_NAME }}
+        ZONE: ${{ vars.ZONE }}
+        CONTAINER_ID: ${{ vars.CONTAINER_ID }}
+
+  build-frontend:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.frontend == 'true' && needs.detect-changes.outputs.bff == 'false'
+    runs-on: ubuntu-latest
+    environment: prod
+    defaults:
+      run:
+        working-directory: ./noti42-portal/frontend
 
     steps:
     - name: Checkout repository
@@ -82,21 +127,18 @@ jobs:
         node-version: '20'
 
     - name: Install frontend dependencies
-      run: cd frontend && npm install
+      run: npm install
 
     - name: Build frontend
       env:
         VITE_GA_MEASUREMENT_ID: ${{ vars.VITE_GA_MEASUREMENT_ID }}
-      run: |
-        cd frontend && npm run build
-        mkdir ../bff/dist && mkdir ../bff/dist/public  
-        cp -r dist/* ../bff/dist/public/
+      run: npm run build
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
         name: frontend-build
-        path: bff/dist/public/
+        path: dist/
 
   deploy-frontend:
     runs-on: ubuntu-latest
@@ -114,25 +156,18 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: frontend-build
-        path: bff/dist/public/
+        path: ./frontend-build-artifact/
 
     - name: Configure GCP credentials
-      # This step requires GCP authentication.
-      # You'll need to set up Workload Identity Federation or use a service account key.
-      # Example using service account key (NOT recommended for production):
       uses: google-github-actions/auth@v2
       with:
         credentials_json: ${{ secrets.GCP_SA_KEY }}
 
     - name: Deploy frontend to VM
-      # This step mirrors the 'deploy-frontend' target from your Makefile.
-      # It requires VM_NAME, ZONE, and CONTAINER_ID to be set as environment variables or GitHub Secrets.
-      # FILES_PATH is handled by downloading the artifact.
       run: |
         echo "Deploying frontend to GCP VM..."
-        # Ensure VM_NAME, ZONE, and CONTAINER_ID are set as GitHub Secrets or environment variables
         gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.ZONE }} --command="mkdir -p /tmp/frontend_dist"
-        gcloud compute scp --recurse bff/dist/public/* ${{ env.VM_NAME }}:/tmp/frontend_dist --zone=${{ env.ZONE }}
+        gcloud compute scp --recurse ./frontend-build-artifact/* ${{ env.VM_NAME }}:/tmp/frontend_dist --zone=${{ env.ZONE }}
         gcloud compute ssh ${{ env.VM_NAME }} --zone=${{ env.ZONE }} --command="docker cp /tmp/frontend_dist/. ${{ env.CONTAINER_ID }}:/app/bff/dist/public && rm -rf /tmp/frontend_dist"
       env:
         VM_NAME: ${{ vars.VM_NAME }}
