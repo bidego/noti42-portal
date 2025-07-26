@@ -7,10 +7,10 @@ import axios from 'axios';
 @Controller()
 export class SsrController {
   private logger = new Logger('SsrController');
-  private readonly templatePath = path.resolve(__dirname, ",,", "public", "index.html");
+  private readonly templatePath = path.resolve(__dirname, "..", "public", "index.html");
   private readonly NOTI_BO_BASE_URL = process.env.NOTI_BO_BASE_URL || 'http://localhost:9000'; // Assuming noti-bo runs on port 9000
 
-  @Get(':categorySlug/:articleSlug')
+  @Get('noticias/:categorySlug/:articleSlug')
   async renderArticle(
     @Param('categorySlug') categorySlug: string,
     @Param('articleSlug') articleSlug: string,
@@ -28,19 +28,21 @@ export class SsrController {
 
       let html = fs.readFileSync(this.templatePath, 'utf-8');
 
-      const title = `Noti42 - ${article.title}`;
-      const description = article.summary;
+      const title = article.metaTitle || `Noti42 - ${article.title}`;
+      const description = article.metaDescription || article.summary;
       const imageUrl = article.imageUrl;
       const articleUrl = `/${categorySlug}/${articleSlug}`;
+      const canonicalUrl = article.canonicalUrl || articleUrl;
 
       html = html.replace(
         '<title>Noti42 - Noticias en tiempo real</title>',
         `<title>${title}</title>
          <meta name="description" content="${description}" />
+         <link rel="canonical" href="${canonicalUrl}" />
          <meta property="og:title" content="${title}" />
          <meta property="og:description" content="${description}" />
          <meta property="og:image" content="${imageUrl}" />
-         <meta property="og:url" content="${articleUrl}" />
+         <meta property="og:url" content="${canonicalUrl}" />
          <meta property="og:site_name" content="Noti42" />
          <meta property="og:type" content="article" />
         `,

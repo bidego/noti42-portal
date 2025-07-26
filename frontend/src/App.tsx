@@ -50,6 +50,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/articles/slug/:slug" element={<OldArticleRedirector />} />
             <Route path="/:categorySlug/:articleSlug" element={<ArticleView />} />
+            <Route path="/noticias/:categorySlug/:articleSlug" element={<ArticleView />} />
             <Route path="/:slug" element={<CategoryView />} />
             <Route path="/nosotros" element={<AboutUs />} />
             <Route path="/privacidad" element={<PrivacyPolicy />} />

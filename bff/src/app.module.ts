@@ -7,6 +7,7 @@ import { ApiController } from './api.controller';
 const logger = new Logger('AppModule');
 
 import { join } from 'path';
+import { SsrController } from './ssr/ssr.controller';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { join } from 'path';
       },
     })
   ],
-  controllers: [AppController, ApiController ],
+  controllers: [AppController, ApiController, SsrController ],
   providers: [AppService],
 })
 export class AppModule {}

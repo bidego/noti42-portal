@@ -48,7 +48,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 
   return (
     <article className={`article-card ${variant}`}>
-      <Link to={`/${category.slug}/${slug}`} className="article-link" onClick={handleArticleClick}>
+      <Link to={`/noticias/${category.slug}/${slug}`} className="article-link" onClick={handleArticleClick}>
         <div className="article-image-container">
           <img 
             src={imageUrl} 

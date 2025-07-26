@@ -55,7 +55,6 @@ const ArticleView: React.FC = () => {
   };
 
   if (loading) {
-    document.title = "Noti42 - Loading Article...";
     return (
       <div className="loading-container">
         <img src="/favicon.png" alt="Cargando..." className="loading-logo" />
@@ -75,16 +74,7 @@ const ArticleView: React.FC = () => {
   }
 
   return (
-    <>
-      <title>{`Noti42 - ${article.title}`}</title>
-      <meta name="description" content={article.summary} />
-      <meta property="og:title" content={article.title} />
-      <meta property="og:description" content={article.summary} />
-      {article.imageUrl && <meta property="og:image" content={article.imageUrl} />}
-      <meta property="og:url" content={window.location.href} />
-      <meta property="og:site_name" content="Noti42" />
-      <meta property="og:type" content="article" />
-      
+    <>      
       <div className="main-content">
         <div className="container article-view">
           {article.imageUrl && (

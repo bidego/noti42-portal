@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./noti42-portal/bff
+        working-directory: ./bff
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -69,11 +69,14 @@ jobs:
     - name: Build BFF
       run: npm run build
 
+    - name: Check BFF Build
+      run: ls -la
+
     - name: Upload BFF build artifacts
       uses: actions/upload-artifact@v4
       with:
         name: bff-build
-        path: dist/
+        path: ./bff/dist
 
   deploy-bff:
     runs-on: ubuntu-latest
@@ -115,7 +118,7 @@ jobs:
     environment: prod
     defaults:
       run:
-        working-directory: ./noti42-portal/frontend
+        working-directory: ./frontend
 
     steps:
     - name: Checkout repository
