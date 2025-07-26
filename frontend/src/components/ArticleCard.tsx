@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import type { Article } from '../api';
+import { sendEvent } from '../analytics';
 import './ArticleCard.css';
 
 interface ArticleCardProps extends Article {
@@ -37,9 +38,17 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
     return formatDate(dateString);
   };
 
+  const handleArticleClick = () => {
+    sendEvent('article_click', {
+      category: category.slug,
+      article_slug: slug,
+      article_title: title,
+    });
+  };
+
   return (
     <article className={`article-card ${variant}`}>
-      <Link to={`/${category.slug}/${slug}`} className="article-link">
+      <Link to={`/${category.slug}/${slug}`} className="article-link" onClick={handleArticleClick}>
         <div className="article-image-container">
           <img 
             src={imageUrl} 

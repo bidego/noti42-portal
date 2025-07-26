@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import { useState, useEffect } from 'react';
 import Home from './components/Home';
@@ -13,7 +13,19 @@ import TermsAndConditions from './components/TermsAndConditions';
 import ContactForm from './components/ContactForm';
 import AdvertisementForm from './components/AdvertisementForm';
 import { getCategories, type Category } from './api';
+import { sendPageView } from './analytics';
 import './App.css';
+
+// Componente para rastrear las vistas de página
+const PageViewTracker = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    sendPageView(location.pathname + location.search);
+  }, [location]);
+
+  return null;
+};
 
 function App() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -30,6 +42,7 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
+      <PageViewTracker />
       <div className="App">
         <Header categories={categories} />
         <main className="main-content">

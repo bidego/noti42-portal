@@ -7,10 +7,10 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-size: 0.9rem;
-  animation: pulse 2s infinite;
+  animation: color-pulse 2s infinite;
 }
 
-@keyframes pulse {
+@keyframes color-pulse {
   0% { opacity: 0.8; }
   50% { opacity: 1; }
   100% { opacity: 0.8; }
